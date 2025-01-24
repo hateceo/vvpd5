@@ -30,6 +30,31 @@ def maclaurin_binomial(x, m, n_terms=10):
         result += term
     return result
 
+def binomial_series(x, m, n):
+    """
+    Вычисляет разложение (1 + x)^m в степенной ряд до n членов.
+
+    :param x: Переменная x
+    :param m: Степень разложения
+    :param n: Количество членов ряда
+    :return: Значение разложения
+    """
+    result = 1  # Первое слагаемое
+    term = 1  # Текущее значение произведения
+
+    for k in range(1, n):
+        term *= m - (k - 1)  # Вычисление числителя
+        result += (term / math.factorial(k)) * (x ** k)
+
+    return result
+
+
+# Пример использования
+x = 0.5  # Значение x
+m = 2  # Степень
+n = 5  # Количество членов
+print(binomial_series(x, m, n))
+
 def main():
     """
     Главное меню программы.
@@ -38,9 +63,10 @@ def main():
         print("\nВыберите функцию для вычисления:")
         print("1. cos(x)")
         print("2. (1+x)^m")
-        print("3. Выход")
+        print("3. еще одна функция")
+        print("4. Выход")
 
-        choice = input("Введите номер функции (1, 2, 3): ")
+        choice = input("Введите номер функции (1, 2, 3, 4): ")
 
         if choice == "1":
             try:
@@ -63,6 +89,24 @@ def main():
                 print("Ошибка. Введите корректные числовые значения x и m")
 
         elif choice == "3":
+            try:
+                # Получаем входные данные от пользователя
+                x = float(input("Введите значение x: "))
+                m = float(input("Введите значение m (степень): "))
+                n = int(input("Введите количество членов ряда (n): "))
+
+                if n <= 0:
+                    print("Количество членов ряда (n) должно быть положительным числом!")
+                    continue
+
+                # Вычисляем результат
+                result = binomial_series(x, m, n)
+                print(f"Результат разложения (1 + {x})^{m} до {n} членов: {result}")
+
+            except ValueError:
+                print("Ошибка ввода. Убедитесь, что ввели числа корректно.")
+
+        elif choice == "4":
             print("Выход из программы")
             break
 
